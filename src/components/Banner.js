@@ -1,12 +1,30 @@
-import React, { useState } from 'react';
+import axios from '../axios';
+import React, { useEffect, useState } from 'react';
 import "../Banner.css"
+import requests from '../Request';
 
 function Banner() {
-    const [show, setshow] = useState(false)
+    const [show, setshow] = useState(false);
+    const [movie, setMovie] = useState([])
+
+    useEffect(() => {
+        const fetchData = async () =>{
+            const request = await axios.get(requests.fetchNetflixOriginals);
+            setMovie(
+                request.data.results[
+                    Math.floor(Math.random() * request.data.results.length - 1)
+                ]
+            )
+            return request;
+        }
+        fetchData();
+    }, [])
     
+    console.log('movie', movie);
+
     const truncateText = (string, show, n) => {
         if(!show && string.length > n){
-            return string.substr(0, n)
+            return string.substr(0, n-1)
         }else{
             return string
         }
@@ -15,20 +33,17 @@ function Banner() {
     return (
         <header className="banner" style ={{
             backgroundSize:'cover',
-            backgroundImage:`url('https://res.cloudinary.com/practicaldev/image/fetch/s--THrf5Yjw--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/n6brz4p7iq7j1mulo1nv.jpg')`,
+            backgroundImage:`url('https://image.tmdb.org/t/p/original/${movie?.backdrop_path}')`,
             backgroundPosition: 'cover cover'
         }}>
           <div className="banner__content">
-              <h1 className="banner__title">Movie Name</h1>
+              <h1 className="banner__title">{movie?.title || movie?.name || movie?.original_name}</h1>
               <div className="banner__buttons" >
                  <button className="banner__button">Play</button >
                  <button className="banner__button">My List</button >
               </div>
               <h1 className="banner__description">
-                  {truncateText(`This is a test description test description test description 
-                  test description test description test description test description 
-                  test description test description test description test description 
-                  test description test description`, show, 50)}
+                  {truncateText(`${movie?.overview}? ${movie?.overview}:"Overview"}` , show, 50)}
                  
                   <span
                     onClick={() => setshow(!show)}
