@@ -23,8 +23,8 @@ console.log("m", movies);
             <h2>{title}</h2>
             <div className="row__posters">
                 {movies.map(movie =>(
-                    (isLargeRow && movie.poster_path) || 
-                    (!isLargeRow && movie.backdrop_path && (
+                    ((isLargeRow && movie.poster_path) || 
+                    (!isLargeRow && movie.backdrop_path) ) && (
                         <img
                             className={`row__poster ${isLargeRow && "row__posterLarge"}`}
                             key = {movie.id}
