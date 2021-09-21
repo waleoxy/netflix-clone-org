@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import "../Navbar.css"
 
 function Navbar() {
-    const [show, handleShow] = useState(false)
+    const [show, handleShow] = useState(false);
+    const history = useHistory();
 
     const transitionNavBar = () => {
         if (window.scrollY > 100) {
@@ -27,6 +29,7 @@ function Navbar() {
                     alt="Netlix logo" />
 
                 <img
+                    onClick = {()=>history.push("/profile")}
                     className="nav__avatar"
                     src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/c7906d33850498.56ba69ac353e1.png"
                     alt="Netlix avatar" />

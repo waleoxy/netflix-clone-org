@@ -1,23 +1,36 @@
 import { onAuthStateChanged } from '@firebase/auth';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router,Route, Switch } from 'react-router-dom';
 import './App.css';
+import { login, logout, selectUser } from './features/userSlice';
 import { auth } from './firebase';
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from './screens/LoginScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 function App() {
-const [user, setUser] = useState('');
+const user = useSelector(selectUser);
+const dispatch = useDispatch()
 
 useEffect(() => {
 const unsubscribe = onAuthStateChanged(auth, (user) => {
   if (user) {
-  console.log('us', user);
+  //User signed in
+  dispatch(
+    login({
+    userId: user.uid,
+    email: user.email
+  })
+)
+
   } else {
     // User is signed out
+    dispatch(logout)
   }
-});
+})
+
 return unsubscribe();
 }, [])
 
@@ -29,6 +42,9 @@ return unsubscribe();
             (<LoginScreen/>)
            : (
               <Switch>
+                <Route path="/profile">
+                  <ProfileScreen />
+                </Route>
                 <Route exact path="/">
                   <HomeScreen />
                 </Route>
