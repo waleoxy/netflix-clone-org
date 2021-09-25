@@ -17,13 +17,14 @@ function Navbar() {
     useEffect(() => {
         window.addEventListener("scroll", transitionNavBar)
 
-        return () => window.removeEventListener("sctoll", transitionNavBar)
+        return () => window.removeEventListener("scroll", transitionNavBar)
 
     }, [])
     return (
         <div className={`nav ${show && "nav__black"}`}>
             <div className="nav__content">
                 <img
+                    onClick={() => history.push("/")}
                     className="nav__logo"
                     src="http://assets.stickpng.com/images/580b57fcd9996e24bc43c529.png"
                     alt="Netlix logo" />

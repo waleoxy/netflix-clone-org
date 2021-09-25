@@ -27,12 +27,12 @@ const unsubscribe = onAuthStateChanged(auth, (user) => {
 
   } else {
     // User is signed out
-    dispatch(logout)
+    dispatch(logout())
   }
 })
 
-return unsubscribe();
-}, [])
+return unsubscribe;
+}, [dispatch])
 
   return (
     <div className="app">

@@ -3,7 +3,7 @@ import "./LoginScreen.css"
 import SignUpScreen from './SignUpScreen';
 
 function LoginScreen() {
-    const [signIn, setSignIn] = useState('waleoxy') 
+    const [signIn, setSignIn] = useState(false) 
 
     return (
         <div className="loginScreen">

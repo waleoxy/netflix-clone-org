@@ -15,7 +15,19 @@ useEffect( () => {
    const products = {}
    querySnapshot.forEach(async doc => { 
        products[doc.id] = doc.data();
-       
+       const p = collection(doc.ref, "prices")
+       const priceSnap= await getDocs(p);
+       priceSnap.forEach( price => {
+           products[doc.id].prices = {
+               priceId: price.id,
+               priceDoc: price.data()
+           }
+       }
+
+       )
+      
+       console.log('dd', p);
+
    });     
    console.log('p',products);
   setmyProducts(products);
